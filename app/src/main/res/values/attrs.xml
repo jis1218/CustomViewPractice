@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AniButton"> <!-- 재정의할 객체 이름-->
+        <attr name = "animation" format = "string"/> <!-- 들어갈게 resource와 string 밖에 없다. 다른 타입은 자동완성 나온다 하더라도 허용이 안됨/-->
+        <attr name = "delimeter" format = "string"/>
+    </declare-styleable>
+</resources>
