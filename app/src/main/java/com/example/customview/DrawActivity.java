@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -31,19 +32,49 @@ public class DrawActivity extends AppCompatActivity {
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        btnDlt = (Button) findViewById(R.id.btnDlt);
-        btnDlt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawView.delete();
-            }
-        });
+//        btnDlt = (Button) findViewById(R.id.btnDlt);
+//        btnDlt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                drawView.delete();
+//            }
+//        });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                drawView.setWidth(i);
-                seek = i;
+
+                //drawView.setWidth(i);
+                switch(radioGroup.getCheckedRadioButtonId()){
+                    case R.id.radioBlack:
+                        Log.d("change", "change");
+//                        drawView = new DrawView(DrawActivity.this);
+//                        stage.addView(drawView);
+                        //drawView.setColor(Color.BLACK);
+                        drawView.anyThingChanged(Color.BLACK, seekBar.getProgress());
+                        break;
+
+                    case R.id.radioCyan:
+//                        drawView = new DrawView(DrawActivity.this);
+//                        stage.addView(drawView);
+                        //drawView.setColor(Color.CYAN);
+                        drawView.anyThingChanged(Color.CYAN, seekBar.getProgress());
+                        break;
+
+                    case R.id.radioMagneta:
+//                        drawView = new DrawView(DrawActivity.this);
+//                        stage.addView(drawView);
+                        //drawView.setColor(Color.MAGENTA);
+                        drawView.anyThingChanged(Color.MAGENTA, seekBar.getProgress());
+                        break;
+
+                    case R.id.radioYellow:
+//                        drawView = new DrawView(DrawActivity.this);
+//                        stage.addView(drawView);
+                        //drawView.setColor(Color.YELLOW);
+                        drawView.anyThingChanged(Color.YELLOW, seekBar.getProgress());
+                        break;
+                }
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -62,36 +93,35 @@ public class DrawActivity extends AppCompatActivity {
                     case R.id.radioBlack:
 //                        drawView = new DrawView(DrawActivity.this);
 //                        stage.addView(drawView);
-                        drawView.setColor(Color.BLACK);
-                        colorcolor = Color.BLACK;
+                        //drawView.setColor(Color.BLACK);
+                        drawView.anyThingChanged(Color.BLACK, seekBar.getProgress());
 
                         break;
 
                     case R.id.radioCyan:
 //                        drawView = new DrawView(DrawActivity.this);
 //                        stage.addView(drawView);
-                        drawView.setColor(Color.CYAN);
-                        colorcolor = Color.CYAN;
+                        //drawView.setColor(Color.CYAN);
+                        drawView.anyThingChanged(Color.CYAN, seekBar.getProgress());
                         break;
 
                     case R.id.radioMagneta:
 //                        drawView = new DrawView(DrawActivity.this);
 //                        stage.addView(drawView);
-                        drawView.setColor(Color.MAGENTA);
-                        colorcolor = Color.MAGENTA;
+                        //drawView.setColor(Color.MAGENTA);
+                        drawView.anyThingChanged(Color.MAGENTA, seekBar.getProgress());
                         break;
 
                     case R.id.radioYellow:
 //                        drawView = new DrawView(DrawActivity.this);
 //                        stage.addView(drawView);
-                        drawView.setColor(Color.YELLOW);
-                        colorcolor = Color.YELLOW;
+                        //drawView.setColor(Color.YELLOW);
+                        drawView.anyThingChanged(Color.YELLOW, seekBar.getProgress());
                         break;
                 }
             }
         });
     }
-
     public int getColor(){
         return colorcolor;
     }

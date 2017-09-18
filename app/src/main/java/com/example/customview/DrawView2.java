@@ -16,87 +16,74 @@ import java.util.ArrayList;
  */
 
 public class DrawView2 extends View {
-
-    ArrayList<PathFinder> pathfinders = new ArrayList<>();
-    DrawActivity drawActivity;
+    ArrayList<PathFinder> list;
+    PathFinder pathFinder;
+    Path currentPath;
+    Paint currentPaint;
+    PathFinder temp;
 
 
     public DrawView2(Context context) {
         super(context);
-        PathFinder pathFinder = new PathFinder();
-        drawActivity = new DrawActivity();
-        pathfinders.add(pathFinder);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-
-            case MotionEvent.ACTION_DOWN:
-
-                if(pathfinders.isEmpty()){
-                    pathfinders.add(new PathFinder());
-
-                }
-
-                pathfinders.get(pathfinders.size()-1).path.moveTo(event.getX(), event.getY());
-
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                pathfinders.get(pathfinders.size()-1).path.lineTo(event.getX(), event.getY());
-                invalidate();
-
-                break;
-
-            case MotionEvent.ACTION_UP:
-                pathfinders.add(new PathFinder());
-                pathfinders.get(pathfinders.size()-1).paint.setColor();
-                pathfinders.get(pathfinders.size()-1).paint.setStrokeWidth(drawActivity.getSeek());
-                break;
-        }
-        return true;
+        list = new ArrayList<>();
+        pathFinder = new PathFinder();
+        currentPath = pathFinder.path;
+        currentPaint = pathFinder.paint;
+        currentPaint.setColor(Color.BLACK);
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setStrokeWidth(1);
+        //list.add(pathFinder);
+        temp = pathFinder;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawPath(pathfinders.get(pathfinders.size()-1).path, pathfinders.get(pathfinders.size()-1).paint);
-        for(PathFinder pathFinder : pathfinders){
-            canvas.drawPath(pathFinder.path, pathFinder.paint);
+        for(PathFinder path : list){
+            canvas.drawPath(path.path, path.paint);
         }
-    }
-    public void setColor(int color) {
-        //pathfinders.add(new PathFinder());
-
-        pathfinders.get(pathfinders.size()-1).paint.setColor(color);
-
-
+        //canvas.drawPath(currentPath, currentPaint);
     }
 
-    public void setWidth(int width){
-        //pathfinders.add(new PathFinder());
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
 
-        pathfinders.get(pathfinders.size()-1).paint.setStrokeWidth((float) width);
-    }
+        switch(event.getAction()){
+            case MotionEvent.ACTION_DOWN :
+                list.add(temp);
+                currentPath.moveTo(event.getX(), event.getY());
+                break;
 
-    public void delete(){
-        if(pathfinders.size()>0) {
-            pathfinders.remove(pathfinders.size() - 1);
-
-        invalidate();
+            case MotionEvent.ACTION_MOVE :
+                currentPath.lineTo(event.getX(), event.getY());
+                invalidate();
+                break;
         }
+        return true;
     }
+
+    public PathFinder anyThingChanged(int color, int progress){
+        PathFinder pathFinder = new PathFinder();
+        currentPath = pathFinder.path;
+        currentPaint = pathFinder.paint;
+        currentPaint.setStyle(Paint.Style.STROKE);
+        currentPaint.setColor(color);
+        currentPaint.setStrokeWidth(progress);
+        temp = pathFinder;
+        //list.add(pathFinder);
+        Log.d("list size", "List size is " + list.size());
+
+        return pathFinder;
+    }
+
+//    public void input(PathFinder pathFinder){
+//        currentPath = pathFinder.path;
+//        currentPaint = pathFinder.paint;
+//        list.add(pathFinder);
+//    }
 }
 
-class PathFinder {
-
-    Path path = new Path();
-    Paint paint = new Paint();
-
-    public PathFinder() {
-        paint.setStyle(Paint.Style.STROKE);
-    }
-
+class PathFinder{
+    public Path path = new Path();
+    public Paint paint = new Paint();
 }
